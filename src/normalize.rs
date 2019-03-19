@@ -46,17 +46,17 @@ mod tests {
         let normalized = normalize_map(&input);
 
         // Assert
-        match normalized.get("number_item").unwrap() {
+        match normalized.get("number_item").expect("key not found") {
             Value::Number(n) => assert_eq!(n.as_i64().unwrap(), 10),
             _ => assert!(false)
         }
 
-        match normalized.get("string_item").unwrap() {
+        match normalized.get("string_item").expect("key not found") {
             Value::String(s) => assert_eq!(s, "value"),
             _ => assert!(false)
         }
 
-        match normalized.get("bool_item").unwrap() {
+        match normalized.get("bool_item").expect("key not found") {
             Value::Bool(b) => assert_eq!(*b, true),
             _ => assert!(false)
         }
