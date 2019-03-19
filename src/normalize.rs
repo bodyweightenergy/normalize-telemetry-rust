@@ -34,31 +34,66 @@ mod tests {
     use serde_json::*;
 
     #[test]
-    fn test_basic() {
+    fn test_number() {
 
         // Arrange
-        let mut input: Map<String, Value> = Map::new();
-        input.insert("number_item".to_string(), Value::Number(10.into()));
-        input.insert("string_item".to_string(), Value::String("value".to_string()));
-        input.insert("bool_item".to_string(), Value::Bool(true));
+        let mut input = Map::new();
+
+        input.entry("item1").or_insert(json!(0));
+        input.entry("item2").or_insert(json!(10));
+        input.entry("item3").or_insert(json!(-5.0));
+
+        println!("input = {:?}", input);
 
         // Act
         let normalized = normalize_map(&input);
+        println!("normalized = {:?}", normalized);
 
         // Assert
-        match normalized.get("number_item").expect("key not found") {
-            Value::Number(n) => assert_eq!(n.as_i64().unwrap(), 10),
-            _ => assert!(false)
-        }
+        assert_eq!(normalized["num_item1"], 0);
+        assert_eq!(normalized["num_item2"], 10);
+        assert_eq!(normalized["num_item3"], -5.0);
+    }
 
-        match normalized.get("string_item").expect("key not found") {
-            Value::String(s) => assert_eq!(s, "value"),
-            _ => assert!(false)
-        }
+    #[test]
+    fn test_string() {
 
-        match normalized.get("bool_item").expect("key not found") {
-            Value::Bool(b) => assert_eq!(*b, true),
-            _ => assert!(false)
-        }
+        // Arrange
+        let mut input = Map::new();
+
+        input.entry("item1").or_insert(json!(""));
+        input.entry("item2").or_insert(json!("hello"));
+        input.entry("item3").or_insert(json!("unicode: G😝©[_ǅƭÛ"));
+
+        println!("input = {:?}", input);
+
+        // Act
+        let normalized = normalize_map(&input);
+        println!("normalized = {:?}", normalized);
+
+        // Assert
+        assert_eq!(normalized["str_item1"], "");
+        assert_eq!(normalized["str_item2"], "hello");
+        assert_eq!(normalized["str_item3"], "unicode: G😝©[_ǅƭÛ");
+    }
+
+    #[test]
+    fn test_bool() {
+
+        // Arrange
+        let mut input = Map::new();
+
+        input.entry("true").or_insert(json!(true));
+        input.entry("false").or_insert(json!(false));
+
+        println!("input = {:?}", input);
+
+        // Act
+        let normalized = normalize_map(&input);
+        println!("normalized = {:?}", normalized);
+
+        // Assert
+        assert_eq!(normalized["bool_true"], true);
+        assert_eq!(normalized["bool_false"], false);
     }
 }
