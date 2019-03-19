@@ -12,18 +12,18 @@ pub fn normalize_map(map: &Map<String, Value>) -> Map<String, Value> {
 
 pub fn normalize(pair: &(&String, &Value)) -> (String, Value) {
     match &pair.1 {
-        Value::Bool(b) => (format!("bool_{}", pair.0), Value::Bool(*b)),
-        Value::Number(n) => (format!("num_{}", pair.0), Value::Number(n.clone())),
-        Value::String(s) => (format!("str_{}", pair.0), Value::String(s.clone())),
+        Value::Bool(b) => (format!("bool_{}", pair.0), json!(*b)),
+        Value::Number(n) => (format!("num_{}", pair.0), json!(n.clone())),
+        Value::String(s) => (format!("str_{}", pair.0), json!(s.clone())),
         Value::Null => (format!("str_{}", pair.0), Value::Null),
-        Value::Array(v) => (format!("arr_{}", pair.0), Value::Array(v.clone())),
+        Value::Array(v) => (format!("arr_{}", pair.0), json!(v.clone())),
         Value::Object(m) => {
             let mut m_r = Map::default();
             for p in m {
                 let n = normalize(&p);
                 m_r.insert(n.0, n.1);
             }
-            (format!("obj_{}", pair.0), Value::Object(m_r))
+            (format!("obj_{}", pair.0), json!(m_r))
         }
     }
 }

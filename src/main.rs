@@ -5,7 +5,7 @@ use std::io::*;
 
 mod normalize;
 
-use normalize::{normalize, normalize_map};
+use normalize::normalize_map;
 
 fn main() {
     println!("Starting");
