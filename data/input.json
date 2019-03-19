@@ -1,0 +1,15 @@
+{
+    "timestamp": 1552955398200,
+    "url": "https://johntuckner.me/",
+    "method": "GET",
+    "ray": "4b9b55c50da4251f",
+    "ip": "35.226.210.159",
+    "host": "johntuckner.me",
+    "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36",
+    "cc": "US",
+    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+    "colo": "ORD",
+    "tlsVersion": "TLSv1.2",
+    "tlsCipher": "ECDHE-ECDSA-CHACHA20-POLY1305",
+    "status": 200
+}

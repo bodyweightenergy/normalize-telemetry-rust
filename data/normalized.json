@@ -1,0 +1,40 @@
+{
+  "_index": "telemetry-8cc442d4-dcce-46d2-9e17-dce3ce15c290-2019-03-19",
+  "_type": "_doc",
+  "_id": "2KBak2kB7-g5NaZD3HkW",
+  "_version": 1,
+  "_score": null,
+  "_source": {
+    "num_timestamp": 1552955398200,
+    "str_url": "https://johntuckner.me/",
+    "str_method": "GET",
+    "str_ray": "4b9b55c50da4251f",
+    "str_ip": "35.226.210.159",
+    "str_host": "johntuckner.me",
+    "str_ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36",
+    "str_cc": "US",
+    "str_accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+    "str_colo": "ORD",
+    "str_tlsVersion": "TLSv1.2",
+    "str_tlsCipher": "ECDHE-ECDSA-CHACHA20-POLY1305",
+    "num_status": 200,
+    "clientId": "8cc442d4-dcce-46d2-9e17-dce3ce15c290",
+    "clientName": "Tuckner",
+    "messageSourceIp": "172.68.59.137",
+    "receiveTime": 1552955398267,
+    "sourceUserAgent": "",
+    "normalizeVersion": "1.6.0",
+    "id": "8cc442d4-dcce-46d2-9e17-dce3ce15c290/3a7dcb5c-9d63-4dcc-92c5-e8a1cc942511",
+    "batchId": null,
+    "type": "Unknown",
+    "originalValue": "{\"timestamp\":1552955398200,\"url\":\"https://johntuckner.me/\",\"method\":\"GET\",\"ray\":\"4b9b55c50da4251f\",\"ip\":\"35.226.210.159\",\"host\":\"johntuckner.me\",\"ua\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36\",\"cc\":\"US\",\"accept\":\"text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8\",\"colo\":\"ORD\",\"tlsVersion\":\"TLSv1.2\",\"tlsCipher\":\"ECDHE-ECDSA-CHACHA20-POLY1305\",\"status\":200}"
+  },
+  "fields": {
+    "receiveTime": [
+      "2019-03-19T00:29:58.267Z"
+    ]
+  },
+  "sort": [
+    1552955398267
+  ]
+}
