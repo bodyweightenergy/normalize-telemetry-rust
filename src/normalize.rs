@@ -96,4 +96,55 @@ mod tests {
         assert_eq!(normalized["bool_true"], true);
         assert_eq!(normalized["bool_false"], false);
     }
+
+    #[test]
+    fn test_array() {
+
+        // Arrange
+        let mut input = Map::new();
+
+        input.entry("item1").or_insert(json!(vec![0, 1, 2]));
+        input.entry("item2").or_insert(json!(vec![true, false, true]));
+        input.entry("item3").or_insert(json!(vec!["0", "1", "2"]));
+        input.entry("item4").or_insert(json!(Vec::<i32>::new()));
+
+        println!("input = {:?}", input);
+
+        // Act
+        let normalized = normalize_map(&input);
+        println!("normalized = {:?}", normalized);
+
+        // Assert
+        assert_eq!(normalized["arr_item1"], json!(vec![0, 1, 2]));
+        assert_eq!(normalized["arr_item2"], json!(vec![true, false, true]));
+        assert_eq!(normalized["arr_item3"], json!(vec!["0", "1", "2"]));
+        assert_eq!(normalized["arr_item4"], json!(Vec::<i32>::new()));
+    }
+
+    #[test]
+    fn test_object() {
+        // Arrange
+        let mut input = Map::new();
+
+        input.entry("item1").or_insert(json!({
+            "item1": true,
+            "item2": 10.0,
+            "item3": "hello ǰF🙀😪ğ♆",
+            "array1": [ 0, 1, 2 ],
+        }));
+
+        println!("input = {:?}", input);
+
+        // Act
+        let normalized = normalize_map(&input);
+        println!("normalized = {:?}", normalized);
+
+        // Assert
+        assert_eq!(normalized["obj_item1"], json!({
+            "bool_item1": true,
+            "num_item2": 10.0,
+            "str_item3": "hello ǰF🙀😪ğ♆",
+            "arr_array1": [ 0, 1, 2 ],
+        }));
+    }
 }
