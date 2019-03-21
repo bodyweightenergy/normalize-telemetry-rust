@@ -1,35 +1,24 @@
 use serde_json::*;
+use std::io::{self, Read, Write};
 
-use std::fs::*;
-use std::io::*;
+use json_normalizer::normalize_flatten;
 
-use json_normalizer::normalize::normalize_map;
+fn main() -> io::Result<()> {
+    eprintln!("Telemetry Normalizer, started.");
 
-fn main() {
-    println!("Starting");
+    let mut buffer = String::new();
+    io::stdin().read_to_string(&mut buffer)?;
 
-    // Read input file
-    let file = File::open("C:/git/rust/json_normalizer/data/input.json")
-        .expect("error opening input file");
-    let reader = BufReader::new(file);
-    let s_reader: Value = from_reader(reader).unwrap();
+    let input_json: Value = from_str(&buffer[..])?;
+    let processed: Value = json!(normalize_flatten(
+        &input_json
+            .as_object()
+            .expect("input JSON is not a valid object")
+    ));
 
-    // Only normalize if valid JSON object
-    match s_reader {
-        Value::Object(o) => {
-            // Normalize input
-            let normalized: Value = Value::Object(normalize_map(&o));
+    buffer = to_string_pretty(&processed)?;
+    io::stdout().write_all(&buffer.as_bytes())?;
 
-            println!("Input: {:?}", o);
-            println!("");
-            println!("Normalized: {:?}", normalized);
-
-            // Output normalized JSON to file
-            let output_file = File::create("C:/git/rust/json_normalizer/data/output.json")
-                .expect("Could not create output file.");
-            let writer = BufWriter::new(output_file);
-            to_writer_pretty(writer, &normalized).expect("failed to serialize to output");
-        }
-        _ => println!("Not an object: {:?}", s_reader),
-    };
+    eprintln!("Processing complete.");
+    Ok(())
 }

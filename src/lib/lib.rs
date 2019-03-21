@@ -44,7 +44,9 @@
 pub mod flatten;
 pub mod normalize;
 
-use serde_json::Value;
+use flatten::flatten_map;
+use normalize::normalize_map;
+use serde_json::{Map, Value};
 
 pub fn get_type_str(value: &Value) -> String {
     match value {
@@ -57,10 +59,15 @@ pub fn get_type_str(value: &Value) -> String {
     }
 }
 
+pub fn normalize_flatten(json: &Map<String, Value>) -> Map<String, Value> {
+    flatten_map(&normalize_map(json))
+}
+
 #[cfg(test)]
 mod tests {
     use super::flatten::*;
     use super::normalize::*;
+    use super::*;
     use serde_json::*;
 
     #[test]
@@ -92,6 +99,8 @@ mod tests {
         let normalized = normalize_map(&input.as_object().unwrap());
         let flattened = flatten_map(&normalized);
 
+        let actual = json!(normalize_flatten(&input.as_object().unwrap()));
+
         // Assert
         let expected = json!({
             "str_name": "john",
@@ -116,7 +125,14 @@ mod tests {
         println!("Expected:");
         println!("{}", to_string_pretty(&expected).unwrap());
 
-        assert!(expected.eq(&json!(&flattened)));
+        assert!(
+            expected.eq(&json!(&flattened)),
+            "object not normalized/flattened correctly."
+        );
+        assert!(
+            expected.eq(&actual),
+            "normalized_flatten() function output does not match the separate parts."
+        );
     }
 
 }
