@@ -6,3 +6,11 @@ edition = "2018"
 
 [dependencies]
 serde_json = "*"
+
+[lib]
+name = "json_normalizer"
+path = "src/lib/lib.rs"
+
+[[bin]]
+name = "json_normalizer_bin"
+path = "src/bin/main.rs"
