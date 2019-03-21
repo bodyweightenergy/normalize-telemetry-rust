@@ -3,7 +3,7 @@ use serde_json::*;
 use std::fs::*;
 use std::io::*;
 
-use json_normalizer::normalize_map;
+use json_normalizer::normalize::normalize_map;
 
 fn main() {
     println!("Starting");
@@ -33,5 +33,3 @@ fn main() {
         _ => println!("Not an object: {:?}", s_reader),
     };
 }
-
-
