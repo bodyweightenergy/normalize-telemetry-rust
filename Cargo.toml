@@ -1,16 +1,24 @@
 [package]
-name = "json_normalizer"
-version = "0.1.0"
 authors = ["Hazim Salem <hsalem@certtech.com>"]
 edition = "2018"
+name = "json_normalizer"
+version = "0.1.0"
+[[bin]]
+name = "json_normalizer_bin"
+path = "src/bin/main.rs"
 
 [dependencies]
+clap = "*"
 serde_json = "*"
+rand = "*"
 
 [lib]
 name = "json_normalizer"
 path = "src/lib/lib.rs"
 
-[[bin]]
-name = "json_normalizer_bin"
-path = "src/bin/main.rs"
+[dev-dependencies]
+criterion = "*"
+
+[[bench]]
+name = "normalize_benchmark"
+harness = false

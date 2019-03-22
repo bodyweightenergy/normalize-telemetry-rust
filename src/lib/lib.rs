@@ -43,6 +43,7 @@
 
 pub mod flatten;
 pub mod normalize;
+pub mod utils;
 
 use flatten::flatten_map;
 use normalize::normalize_map;

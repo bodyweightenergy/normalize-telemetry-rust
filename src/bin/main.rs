@@ -1,24 +1,51 @@
+use clap::{App, Arg, SubCommand};
+use rand::thread_rng;
 use serde_json::*;
-use std::io::{self, Read, Write};
+use std::fs::File;
+use std::io::{self, BufReader, BufWriter, Read, Write};
 
-use json_normalizer::normalize_flatten;
+use json_normalizer::{normalize_flatten, utils};
 
 fn main() -> io::Result<()> {
-    eprintln!("Telemetry Normalizer, started.");
+    let matches = App::new("Telemetry Normalizer")
+        .version("0.1")
+        .author("Hazim Salem <apklemon@gmail.com>")
+        .about("Normalizes keys and flattens JSON payloads")
+        .arg(
+            Arg::with_name("input")
+                .short("i")
+                .long("input")
+                .value_name("FILE")
+                .help("Path to input JSON file")
+                .takes_value(true),
+        )
+        .arg(
+            Arg::with_name("output")
+                .short("o")
+                .long("output")
+                .value_name("FILE")
+                .help("Path to normalized JSON file")
+                .takes_value(true),
+        )
+        .get_matches();
 
-    let mut buffer = String::new();
-    io::stdin().read_to_string(&mut buffer)?;
+    let input_path = matches.value_of("input").unwrap_or("input.json");
+    let output_path = matches.value_of("output").unwrap_or("output.json");
 
-    let input_json: Value = from_str(&buffer[..])?;
-    let processed: Value = json!(normalize_flatten(
-        &input_json
-            .as_object()
-            .expect("input JSON is not a valid object")
+    println!("Input file: {}", input_path);
+    println!("Output file: {}", output_path);
+
+    let input_file = File::open(input_path)?;
+    let input: Value = from_reader(BufReader::new(input_file))?;
+
+    let processed = json!(normalize_flatten(
+        &input.as_object().expect("Input is not JSON object")
     ));
 
-    buffer = to_string_pretty(&processed)?;
-    io::stdout().write_all(&buffer.as_bytes())?;
+    let output_writer =
+        BufWriter::new(File::create(output_path).expect("Could not create output file."));
 
-    eprintln!("Processing complete.");
+    to_writer_pretty(output_writer, &processed)?;
+
     Ok(())
 }
